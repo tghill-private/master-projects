@@ -1,0 +1,17 @@
+<kml>
+<Document>
+<name></name>
+<description></description>
+    <Placemark>
+    <LineString id="">
+        <name>Line String</name>
+        <description>Describes</description>
+        <ExtendedData></ExtendedData>
+        <extrude></extrude>
+        <tessellate></tessellate>
+        <altitudeMode></altitudeMode>
+        <coordinates>50,30,0 60,40,0</coordinates>
+    </LineString>
+    </Placemark>
+</Document>
+</kml>

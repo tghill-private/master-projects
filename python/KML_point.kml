@@ -1,0 +1,13 @@
+<kml>
+<Document>
+  <name>"Test"</name>
+    <Point id="">
+        <name></name>
+        <description>A point</description>
+        <ExtendedData></ExtendedData>
+        <extrude></extrude>
+        <altitudeMode></altitudeMode>
+        <coordinates>48.6 -135.2 30</coordinates>
+    </Point>
+  </Document>
+</kml>
