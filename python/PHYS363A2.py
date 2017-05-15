@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 Plots constant energy contours and x(t)
 """
@@ -9,9 +11,8 @@ m = 1.
 k = 1.
 a = 1.
 
-energy_coeffs = np.array([k/m, 0.5*k/(m*a*a)])
-
 energy_levels = np.array([0, 0.125*k*a*a, 0.25*k*a*a, 0.5*k*a*a, 0.75*k*a*a])
+energy_labels = ['', 'Oscillatory', '', 'Critical', 'Free']
 
 def x_dot(X, E):
   xd_2 = -k*(X**2)/m + 0.5*k*(X**4)/(a*a*m) + E
@@ -22,8 +23,14 @@ def x_dot(X, E):
 def energy_contours(energy_levels, figname, xmin=-2*a, xmax=2*a):
     X = np.linspace(xmin, xmax, 100)
     fig, ax = plt.subplots()
-    for E in energy_levels:
-        contour = ax.plot(X, x_dot(X, E), label='E = {}'.format(E))
+    for E, label in zip(energy_levels, energy_labels):
+        xdot = x_dot(X, E)
+        contour = ax.plot(X, xdot, label='E = {}'.format(E))
+
+        E_middle = xdot[int(len(xdot)//2)]
+        xpt = X[int(len(xdot)//2)]
+
+        ax.text(xpt, E_middle, label)
 
     ax.legend()
 
@@ -48,7 +55,28 @@ def x(T, figname):
 
     fig.savefig(figname, dpi=600)
 
+def U(X, figname):
+    u = 0.5*k*X*X - 0.25*k*(X**4)/(a*a)
+
+    fig, ax = plt.subplots()
+    ax.plot(X, u, color='b')
+
+    ax.grid()
+    ax.set_ylabel('$U(x)$')
+    ax.set_xlabel('$x$')
+
+    ax.plot([-a, 0, a], [0.25*k*a*a, 0, 0.25*k*a*a], marker='.', ls='', color='b')
+
+    ax.text(a, 0.25*k*a*a, '$(a, {ka^2}/4)$')
+    ax.text(-a, 0.25*k*a*a, '$(-a, {ka^2}/4)$')
+    ax.text(0, 0.1, '$(0,0)$')
+
+    ax.set_title('Potential Energy $U(x)$')
+
+    fig.savefig(figname, dpi=600)
+
 
 if __name__ == '__main__':
-  energy_contours(energy_levels, 'test.png')
-  x(np.linspace(0, 5, 100), 'x.png')
+  energy_contours(energy_levels, 'energy_contours.png')
+#  x(np.linspace(0., 5., 100), 'x_t.png')
+  U(np.linspace(-2., 2., 100), 'U_x.png')
