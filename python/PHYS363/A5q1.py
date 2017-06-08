@@ -1,3 +1,13 @@
+"""
+Phys 363 Assignment 5, Question 1
+
+Solve the problem of the 2 coupled oscillators numerically,
+and compare the numerical and analytic solutions to the problem.
+
+Plot x1(t) vs. x2(t), as well as the difference between
+(x1(t) - x2(t)) for numerical and analytic solutions
+"""
+
 import scipy.integrate
 import numpy as np
 from matplotlib import pyplot as plt
@@ -15,13 +25,13 @@ t = np.linspace(0, 10,  500)
 w1 = np.sqrt(k/m)
 w2 = np.sqrt(k/m*(1+2*e))
 
-x_1 = np.array([np.cos(w1*t),np.cos(w1*t)])
-x_2 = np.array([np.cos(w2*t), -np.cos(w2*t)])
+## Normal modes
+x_1 = np.array([np.cos(w1*t),np.cos(w1*t)])     # Slow Mode
+x_2 = np.array([np.cos(w2*t), -np.cos(w2*t)])   # Fast Mode
 
-print x_1.shape
-print x_2.shape
-
+# Coefficients of the superposition for the analytic solutions
 superpositions = ( (x0, 0), (0, x0), (0.5*(1+np.sqrt(2)), 0.5*(1-np.sqrt(2))) )
+
 
 K = np.array( [ [0, 0, 1., 0],
                 [0, 0, 0., 1.],
@@ -30,6 +40,7 @@ K = np.array( [ [0, 0, 1., 0],
 
 psi_prime = lambda p, t:  np.dot(K, p.T)
 
+## Initial Conditions
 psi_00 = np.array([x0, x0, 0, 0])
 psi_01 = np.array([x0, -x0, 0, 0])
 psi_02 = np.array([x0, np.sqrt(2)*x0, 0, 0])
