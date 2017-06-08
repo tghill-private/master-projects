@@ -19,7 +19,7 @@ k = 1.0
 e = 0.5
 x0 = 1.
 
-t = np.linspace(0, 10,  500)
+t = np.linspace(0, 15,  500)
 
 ## Analytic Solution
 w1 = np.sqrt(k/m)
@@ -52,21 +52,18 @@ axes[0,1].set_title('Numerical - Analytic Solution')
 axes[0,0].set_title('Numerical and Analytic')
 
 for i,psi_0 in enumerate(IC):
-    figname = 'a5q%s.png' % i
     psi = scipy.integrate.odeint(psi_prime, psi_0, t)
     axes[i,0].plot(psi[:,1], psi[:,0], color='b', label='Numerical Solution')
     a, b = superpositions[i]
-    print a, b
     xs1, xs2 = a*x_1 + b*x_2
     error = (psi[:,1]-psi[:,0]) - (xs2-xs1)
-    print "Max Absolute Error:", np.max(np.abs(error))
     axes[i,0].plot(xs2, xs1, color='k', label='Analytic Solution', ls=':')
     axes[i,1].plot(t, error)
-    axes[i,0].set_xlabel('x2')
-    axes[i,0].set_ylabel('x1')
+    axes[i,0].set_xlabel('$x_2(t)$')
+    axes[i,0].set_ylabel('$x_1(t$)')
     # axes[i,0].legend()
-    axes[i,1].set_xlabel('t')
-    axes[i,1].set_ylabel('x1 - x2')
+    axes[i,1].set_xlabel('$t$')
+    axes[i,1].set_ylabel('$x_1(t) - x_2(t)$')
 
 plt.tight_layout()
 fig.savefig('coupled_oscillator_x1_x2.png', dpi=500)
