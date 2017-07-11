@@ -1,4 +1,4 @@
-import numpy as np
+# import numpy as np
 import scipy.integrate
 from matplotlib import pyplot as plt
 
@@ -51,65 +51,65 @@ def q1():
     ax2.grid()
     fig2.savefig('a9q1_02.png', dpi=500)
 
-def q2():
-    X = np.linspace(-2, 3, 100)
-    veff = -3*(X**2) + 2*(X**3)
-
-    figb, axb = plt.subplots()
-    axb.plot(X, veff)
-    axb.set_xlabel('$x/x_1$')
-    axb.set_ylabel('$V/V_1$')
-    axb.set_title('Effective Potential vs. x distance')
-    axb.grid()
-
-    figb.savefig('a9q2_01.png', dpi=500)
-
-    figc, axc = plt.subplots()
-
-    R = np.array([-2., -1., 0., 1., 2.])
-    x = np.linspace(-2, 10, 100)
-    for r in R:
-        Y = r + 3*(x**2) - 2*(x**3)
-        xp = x[Y>=0]
-        Y = Y[Y>=0]
-
-        axc.plot(xp, Y, c='b')
-        axc.plot(xp, -Y, c='b')
-
-    axc.set_xlabel('$x$')
-    axc.set_ylabel('$p_x$')
-    figc.savefig('a9q2_02.png', dpi=500)
-
-def q3():
-    X = np.linspace(-1.5, 1.5, 100)
-    p = np.array([0., 0.5, 1., 1.5, 2.])
-
-    def v_eff(x, p):
-        return 0.5*(p**2)/(1+(x**2)) + (0.5*(x**2))
-
-    figb, axb = plt.subplots()
-    for p_0 in p:
-        axb.plot(X, v_eff(X, p_0), label=p_0)
-
-    axb.legend()
-    axb.set_xlabel('$x/a$')
-    axb.set_ylabel('$V_{eff}/V_c$')
-
-    axb.set_title('$V_{eff}(x)$')
-
-    figb.savefig('a9q3_01.png', dpi=500)
-
-    m = 1.
-    k = 1.
-
-    figc, axc = plt.subplots()
-    for p in np.array([0., 0.5, 1., 2.]):
-        for h in np.array([0.5, 1., 1.5]):
-            px = np.sqrt(h/(2*m) + v_eff(X, p))
-            axc.plot(X, px)
-            axc.plot(X, -px)
-
-    figc.savefig('a9q3_02.png', dpi=500)
+# def q2():
+#     X = np.linspace(-2, 3, 100)
+#     veff = -3*(X**2) + 2*(X**3)
+#
+#     figb, axb = plt.subplots()
+#     axb.plot(X, veff)
+#     axb.set_xlabel('$x/x_1$')
+#     axb.set_ylabel('$V/V_1$')
+#     axb.set_title('Effective Potential vs. x distance')
+#     axb.grid()
+#
+#     figb.savefig('a9q2_01.png', dpi=500)
+#
+#     figc, axc = plt.subplots()
+#
+#     R = np.array([-2., -1., 0., 1., 2.])
+#     x = np.linspace(-2, 10, 100)
+#     for r in R:
+#         Y = r + 3*(x**2) - 2*(x**3)
+#         xp = x[Y>=0]
+#         Y = Y[Y>=0]
+#
+#         axc.plot(xp, Y, c='b')
+#         axc.plot(xp, -Y, c='b')
+#
+#     axc.set_xlabel('$x$')
+#     axc.set_ylabel('$p_x$')
+#     figc.savefig('a9q2_02.png', dpi=500)
+#
+# def q3():
+#     X = np.linspace(-1.5, 1.5, 100)
+#     p = np.array([0., 0.5, 1., 1.5, 2.])
+#
+#     def v_eff(x, p):
+#         return 0.5*(p**2)/(1+(x**2)) + (0.5*(x**2))
+#
+#     figb, axb = plt.subplots()
+#     for p_0 in p:
+#         axb.plot(X, v_eff(X, p_0), label=p_0)
+#
+#     axb.legend()
+#     axb.set_xlabel('$x/a$')
+#     axb.set_ylabel('$V_{eff}/V_c$')
+#
+#     axb.set_title('$V_{eff}(x)$')
+#
+#     figb.savefig('a9q3_01.png', dpi=500)
+#
+#     m = 1.
+#     k = 1.
+#
+#     figc, axc = plt.subplots()
+#     for p in np.array([0., 0.5, 1., 2.]):
+#         for h in np.array([0.5, 1., 1.5]):
+#             px = np.sqrt(h/(2*m) + v_eff(X, p))
+#             axc.plot(X, px)
+#             axc.plot(X, -px)
+#
+#     figc.savefig('a9q3_02.png', dpi=500)
 
 
 if __name__ == '__main__':
