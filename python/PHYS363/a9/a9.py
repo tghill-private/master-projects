@@ -39,7 +39,7 @@ def q1():
     ax.set_xlabel('$t/T$')
     ax.set_ylabel('$(r-r_0)/r_0$')
     ax.grid()
-    fig.savefig('a9q1_01.png')
+    fig.savefig('a9q1_01.png', dpi=500)
 
     fig2, ax2 = plt.subplots()
     x = Y[:,0]*np.cos(Y[:,1])
@@ -49,7 +49,7 @@ def q1():
     ax2.set_xlabel('$x/r_0$')
     ax2.set_ylabel('$y/r_0$')
     ax2.grid()
-    fig2.savefig('a9q1_02.png')
+    fig2.savefig('a9q1_02.png', dpi=500)
 
 def q2():
     X = np.linspace(-2, 3, 100)
