@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 
 PHYS 363 Assignment 10 Question 1
