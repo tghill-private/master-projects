@@ -62,5 +62,3 @@ def download(lat, lon):
             print("File %s downloaded successfully" % dem_file)
         else:
             raise Exception("An uknown error occured while fetching file")
-
-download(31, -110)
