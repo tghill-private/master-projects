@@ -55,27 +55,27 @@ class DEM:
         return self.elevations[lat_row, lon_col]
 
 
-def main():
-    fig, ax = plt.subplots()
-
-    dem = DEM(44.51, -80.3)
-    color_plot = ax.pcolormesh(dem.latlon[0], dem.latlon[1][::-1], dem.elevations[::-1])
-
-    ax.set_xlim(dem.longitudes[0], dem.longitudes[-1])
-    ax.set_ylim(dem.latitudes[-1], dem.latitudes[0])
-
-    cbar = fig.colorbar(color_plot)
-
-    cbar.set_label("Elevation (m)")
-
-    title = os.path.splitext(dem.srtm_dem)[0]
-    ax.set_title(title)
-
-    ax.set_xlabel("Longitude ($^{\circ}$E)")
-    ax.set_ylabel("Latitude ($^{\circ}$N)")
-
-    ax.grid()
-    fig.savefig('../Images/{}.png'.format(dem.srtm_dem), dpi=600)
-
+# def main():
+#     fig, ax = plt.subplots()
+#
+#     dem = DEM(44.51, -80.3)
+#     color_plot = ax.pcolormesh(dem.latlon[0], dem.latlon[1][::-1], dem.elevations[::-1])
+#
+#     ax.set_xlim(dem.longitudes[0], dem.longitudes[-1])
+#     ax.set_ylim(dem.latitudes[-1], dem.latitudes[0])
+#
+#     cbar = fig.colorbar(color_plot)
+#
+#     cbar.set_label("Elevation (m)")
+#
+#     title = os.path.splitext(dem.srtm_dem)[0]
+#     ax.set_title(title)
+#
+#     ax.set_xlabel("Longitude ($^{\circ}$E)")
+#     ax.set_ylabel("Latitude ($^{\circ}$N)")
+#
+#     ax.grid()
+#     fig.savefig('../Images/{}.png'.format(dem.srtm_dem), dpi=600)
+#
 if __name__ == "__main__":
     main()

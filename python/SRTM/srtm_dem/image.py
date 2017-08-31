@@ -35,7 +35,6 @@ def stitch(files):
         row_lat = np.array([])
         row_lon = np.array([])
         for (lat,lon) in row:
-            print (lat, lon)
             elev_map = DEM.DEM(lat,lon)
 
             if row_elev.shape == (0,):
@@ -67,13 +66,15 @@ def stitch(files):
 
     return elev_map
 
-def plot(dem, title=None, save_as=None):
+def plot(dem, title=None, save_as=None, latlim=None, lonlim=None):
     fig, ax = plt.subplots()
     elev = np.ma.masked_equal(dem.elevations[::-1].astype(int), DEM._fill)
     color_plot = ax.pcolormesh(dem.latlon[0], dem.latlon[1][::-1], elev)
 
-    ax.set_xlim(dem.longitudes[0], dem.longitudes[-1])
-    ax.set_ylim(dem.latitudes[-1], dem.latitudes[0])
+    latlim = latlim if latlim else (dem.latitudes[-1], dem.latitudes[0])
+    lonlim = lonlim if lonlim else (dem.longitudes[0], dem.longitudes[-1])
+    ax.set_xlim(*lonlim)
+    ax.set_ylim(*latlim)
 
     cbar = fig.colorbar(color_plot)
 
@@ -96,6 +97,8 @@ def plot(dem, title=None, save_as=None):
         save_path = '../Images/{}.png'.format(dem.srtm_dem)
     fig.savefig(save_path, dpi=600)
 
+    return (fig, ax)
+
 def multi_plot(lat_range, lon_range):
 
     lat_str = []
@@ -116,7 +119,8 @@ def multi_plot(lat_range, lon_range):
 
     dem = stitch(coords)
 
-    plot(dem, title = os.path.splitext(plot_title)[0], save_as = img_path)
+    fig, ax = plot(dem, title = os.path.splitext(plot_title)[0],
+                    save_as = img_path, latlim = lat_range, lonlim = lon_range)
 
 if __name__ == "__main__":
-    multi_plot((42, 45), (-81, -78))
+    multi_plot((42.1, 44.85), (-81, -78.3))

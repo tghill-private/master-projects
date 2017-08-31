@@ -27,18 +27,40 @@ def get_dem_file(lat, lon):
 def get_dem_path(lat, lon):
     return os.path.join(save_dir, get_dem_file(lat, lon))
 
+def fetch_coords(lat_range, lon_range):
+    """Returns coordinates for all data within the lat and lon ranges
+    """
+    lats = np.arange(lat_range[0], lat_range[1], 1.).astype(int)
+    lons = np.arange(lon_range[0], lon_range[1], 1.).astype(int)
+
+    # Catch case where only one file is required
+    if len(lats)==0:
+        lats = [lat_range[0]]
+    if len(lons)==0:
+        lons = [lon_range[0]]
+
+    posns = np.array([ [(lat, lon) for lon in lons] for lat in lats[::-1] ])
+    return posns
+
 def download(lat, lon):
     dem_file = get_dem_file(lat, lon)
-    dem_zip = dem_file + '.zip'
-    url = os.path.join(base_url, dem_zip)
+    if os.path.exists(get_dem_path(lat, lon)):
+        print("File %s already exists" % dem_file)
+    else:
+        dem_zip = dem_file + '.zip'
+        url = os.path.join(base_url, dem_zip)
 
-    request = requests.get(url)
-    bytes_data = io.BytesIO(request.content)
-    with zipfile.ZipFile(bytes_data, 'r') as zip_ref:
-        zip_ref.extractall('dem')
-        zip_ref.close()
+        request = requests.get(url)
+        status = request.status_code
+        if status == requests.codes.not_found:
+            raise IOError("The lat/lon (%s, %s) were not found" % (lat, lon))
+        elif status == requests.codes.ok:
+            bytes_data = io.BytesIO(request.content)
+            with zipfile.ZipFile(bytes_data, 'r') as zip_ref:
+                zip_ref.extractall('dem')
+                zip_ref.close()
+            print("File %s downloaded successfully" % dem_file)
+        else:
+            raise Exception("An uknown error occured while fetching file")
 
-    print "Done"
-
-for lon in (-79, -80, -81):
-    download(42, lon)
+download(31, -110)
