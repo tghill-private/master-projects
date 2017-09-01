@@ -18,6 +18,7 @@ import filemanager
 
 _fill = -32768
 
+
 class DEM:
     _samples = 1201
     _shape = (_samples, _samples)

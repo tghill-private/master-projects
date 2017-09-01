@@ -10,6 +10,8 @@ import numpy as np
 
 import DEM
 
+_res_limit = 4000
+
 def fetch_coords(lat_range, lon_range):
     """Returns coordinates for all data within the lat and lon ranges
     """
@@ -56,11 +58,24 @@ def stitch(files):
             global_lat = np.append(global_lat, row_lat, axis=0)
             global_lon = np.append(global_lon, row_lon, axis=0)
 
+    print global_elev.shape
+    while global_elev.shape[0]>_res_limit:
+        print("Downsampling axis=0")
+        global_elev = global_elev[::2]
+        global_lat = global_lat[::2]
+        global_lon = global_lon[::2]
+
+    while global_elev.shape[1]>_res_limit:
+        print("Downsampling axis=1")
+        global_elev = global_elev[:, ::2]
+        global_lat = global_lat[:, ::2]
+        global_lon = global_lon[:, ::2]
+
     latlon = [global_lon, global_lat]
+    elev_map.longitudes = global_lon[0,:]
+    elev_map.latitudes = global_lat[:,0]
 
     elev_map.elevations = global_elev
     elev_map.latlon = latlon
-    elev_map.longitudes = latlon[0][0,:]
-    elev_map.latitudes = latlon[1][:,0]
 
     return elev_map

@@ -25,10 +25,9 @@ def multi_plot(lat_range, lon_range, mode = "elevation"):
                 "W%.3d"%int(abs(np.floor(lon))))
     lat_str = '_'.join(lat_str)
     lon_str = '_'.join(lon_str)
-    plot_title = "{}_x_{}.png".format(lat_str, lon_str)
-    img_path = os.path.join("../Images", plot_title)
     coords = stitch.fetch_coords(lat_range, lon_range)
     dem = stitch.stitch(coords)
+    print dem.elevations.shape
     # Plotting commands
     fig, ax = plt.subplots()
     elev = dem.elevations[::-1].astype(int)
@@ -37,6 +36,7 @@ def multi_plot(lat_range, lon_range, mode = "elevation"):
         eplt = ax.pcolormesh(dem.latlon[0], dem.latlon[1][::-1], elev, cmap = 'gist_earth')
         cbar = fig.colorbar(eplt)
         cbar.set_label("Elevation (m)")
+        plot_title = "{}_x_{}_elev.png".format(lat_str, lon_str)
 
     elif mode == "relief":
         x, y = np.gradient(elev)
@@ -48,19 +48,26 @@ def multi_plot(lat_range, lon_range, mode = "elevation"):
         shaded = np.sin(altitude)*np.sin(slope) + np.cos(altitude)*np.cos(slope)\
                     *np.cos((azimuth - np.pi/2.) - aspect)
 
-        eplt = ax.pcolormesh(dem.latlon[0], dem.latlon[1][::-1], shaded, cmap="Greys")
+        extent = (lon_range[0], lon_range[-1] , lat_range[-1], lat_range[0])
+        eplt = ax.imshow(shaded, extent = extent, cmap="Greys", alpha = 0.85,
+                    interpolation = "none", origin="upper", vmin=-1.2, vmax=1.2)
+        cplt = ax.imshow(elev, extent = extent, cmap = "gist_earth",
+                        alpha = 0.2, origin = "upper", interpolation="none")
+        plot_title = "{}_x_{}_relief.png".format(lat_str, lon_str)
 
     else:
         raise TypeError("Invalid value for 'mode'")
     ax.set_xlim(*lon_range)
     ax.set_ylim(*lat_range)
-    ax.set_title(plot_title)
+    ax.set_title(os.path.splitext(plot_title)[0])
     ax.set_xlabel("Longitude ($^{\circ}$E)")
     ax.set_ylabel("Latitude ($^{\circ}$N)")
     ax.grid()
+
+    img_path = os.path.join("../Images", plot_title)
     fig.savefig(img_path, dpi=600)
     print("Image saved as %s" % img_path)
     return (fig, ax)
 
 if __name__ == "__main__":
-    multi_plot((50, 52), (-118, -116), mode="relief")
+    multi_plot((42, 46), (-81, -77), mode="relief")
