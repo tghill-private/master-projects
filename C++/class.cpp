@@ -3,18 +3,22 @@ file class.cpp
 
 This file is for playing around with classes in C++
 **/
+
 #include <iostream>
 using namespace std;
 
 class animal {
   public:
-    // animal (string pet_name, float pet_weight, string pet_colour): name(pet_name), weight(pet_weight), colour(colour) {};
-    animal(string pet_name, float pet_weight, string pet_colour) {
-      name = pet_name;
-      weight = pet_weight;
-      colour = pet_colour;
-    };
+    // The two following constructors are identical.
+    //  The first is a short form for the second
+    animal (string pet_name, float pet_weight, string pet_colour): name(pet_name), weight(pet_weight), colour(pet_colour) {};
+    // animal(string pet_name, float pet_weight, string pet_colour) {
+    //   name = pet_name;
+    //   weight = pet_weight;
+    //   colour = pet_colour;
+    // };
 
+    // complementary get/set functions so you never access the attributes
     int get_weight () {return weight;
     };
     void set_weight( float new_weight ) {
@@ -34,6 +38,7 @@ class animal {
     };
 
   private:
+    // Keep the attributes private
     string name;
     int weight;
     string colour;
@@ -41,8 +46,7 @@ class animal {
 
 
 int main(){
-//    string lily="Lily";
-//    string pet = "pet";
+    // make the animals
     animal animal1 ("lily", 20, "Black");
     animal animal2 ("pet", 12, "Brown");
 
@@ -51,8 +55,6 @@ int main(){
 
     animal1.set_weight(61);
     cout <<" Animal 1 Weight: " << animal1.get_weight() << "\n";
-
-    // cout <<"Animal 2 Colour: " << animal2.colour
 
     return 0;
 }
