@@ -25,6 +25,7 @@ def fetch_coords(lat_range, lon_range):
         lons = [lon_range[0]]
 
     posns = np.array([ [(lat, lon) for lon in lons] for lat in lats[::-1] ])
+    print(posns)
     return posns
 
 def stitch(files):
@@ -58,7 +59,7 @@ def stitch(files):
             global_lat = np.append(global_lat, row_lat, axis=0)
             global_lon = np.append(global_lon, row_lon, axis=0)
 
-    print global_elev.shape
+    print(global_elev.shape)
     while global_elev.shape[0]>_res_limit:
         print("Downsampling axis=0")
         global_elev = global_elev[::2]

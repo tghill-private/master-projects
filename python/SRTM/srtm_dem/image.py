@@ -15,6 +15,12 @@ import stitch
 
 def multi_plot(lat_range, lon_range, mode = "elevation"):
     """multi_plot plots elevations for multiple files"""
+    lat_range_orig = np.array(lat_range)
+    lon_range_orig = np.array(lon_range)
+    lat_range = [np.floor(lat_range[0]), np.ceil(lat_range[1])]
+    lon_range = [np.floor(lon_range[0]), np.ceil(lon_range[1])]
+    print(lat_range)
+    print(lon_range)
     lat_str = []
     for lat in (lat_range[0], lat_range[-1]):
         lat_str.append("N%s"%int(np.floor(lat)) if lat>=0 else\
@@ -26,8 +32,9 @@ def multi_plot(lat_range, lon_range, mode = "elevation"):
     lat_str = '_'.join(lat_str)
     lon_str = '_'.join(lon_str)
     coords = stitch.fetch_coords(lat_range, lon_range)
+    print(coords)
     dem = stitch.stitch(coords)
-    print dem.elevations.shape
+    print(dem.elevations.shape)
     # Plotting commands
     fig, ax = plt.subplots()
     elev = dem.elevations[::-1].astype(int)
@@ -53,12 +60,15 @@ def multi_plot(lat_range, lon_range, mode = "elevation"):
                     interpolation = "none", origin="upper", vmin=-1.2, vmax=1.2)
         cplt = ax.imshow(elev, extent = extent, cmap = "gist_earth",
                         alpha = 0.2, origin = "upper", interpolation="none")
+
+        print(lon_range_orig)
+        print(lat_range_orig)
         plot_title = "{}_x_{}_relief.png".format(lat_str, lon_str)
 
     else:
         raise TypeError("Invalid value for 'mode'")
-    ax.set_xlim(*lon_range)
-    ax.set_ylim(*lat_range)
+    ax.set_xlim(*lon_range_orig)
+    ax.set_ylim(*lat_range_orig)
     ax.set_title(os.path.splitext(plot_title)[0])
     ax.set_xlabel("Longitude ($^{\circ}$E)")
     ax.set_ylabel("Latitude ($^{\circ}$N)")
@@ -70,4 +80,5 @@ def multi_plot(lat_range, lon_range, mode = "elevation"):
     return (fig, ax)
 
 if __name__ == "__main__":
-    multi_plot((42, 46), (-81, -77), mode="relief")
+    # multi_plot((42, 46), (-81, -77), mode="relief")
+    multi_plot((43.25, 43.5), (-80.1, -79.9), mode = 'relief')
